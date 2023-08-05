@@ -17,7 +17,7 @@ const FeedData = [
     date: "6 minute ago",
   },
   {
-    title: "New user registered.",
+    title: "김나현.",
     icon: "bi bi-person",
     color: "info",
     date: "6 minute ago",
