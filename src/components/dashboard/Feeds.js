@@ -52,7 +52,7 @@ const Feeds = () => {
   return (
     <Card>
       <CardBody>
-        <CardTitle tag="h3">공지사항</CardTitle>
+        <CardTitle tag="h5">공지사항</CardTitle>
         <CardSubtitle className="mb-2 text-muted" tag="h6">
           공지사항입니다
         </CardSubtitle>

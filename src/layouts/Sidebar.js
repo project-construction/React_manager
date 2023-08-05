@@ -57,6 +57,9 @@ const Sidebar = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
+  const reload = () =>{
+    location.reload();
+  }
   let location = useLocation();
 
   return (
