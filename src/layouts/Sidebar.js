@@ -33,7 +33,12 @@ const navigation = [
     title: "로그인(임시)",
     href: "/forms",
     icon: "bi bi-textarea-resize",
-  }
+  },
+  {
+    title: "마이페이지",
+    href: "/about",
+    icon: "bi bi-hdd-stack",
+  },
 ];
 /*
  {
