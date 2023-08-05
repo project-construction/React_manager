@@ -69,9 +69,9 @@ const SalesChart = () => {
   return (
     <Card>
       <CardBody>
-        <CardTitle tag="h5">Sales Summary</CardTitle>
+        <CardTitle tag="h5">이행률</CardTitle>
         <CardSubtitle className="text-muted" tag="h6">
-          Yearly Sales Report
+          일별 이행률 그래프
         </CardSubtitle>
         <Chart options={options} series={series} type="bar" height="379" />
       </CardBody>

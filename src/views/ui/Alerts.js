@@ -6,6 +6,7 @@ import {
   CardBody,
   CardTitle,
 } from "reactstrap";
+import {Link} from "react-router-dom";
 
 const Alerts = () => {
   // For Dismiss Button with Alert
@@ -58,9 +59,9 @@ const Alerts = () => {
           <div>
             <Alert color="primary">
               This is a primary alert with
-              <a href="/" className="alert-link">
+              <Link to="/cards" className="cards-link">
                 an example link
-              </a>
+              </Link>
               . Give it a click if you like.
             </Alert>
             <Alert color="secondary">

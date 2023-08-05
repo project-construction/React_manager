@@ -65,12 +65,12 @@ const Header = () => {
         <Nav className="me-auto" navbar>
           <NavItem>
             <Link to="/starter" className="nav-link">
-              Starter
+              MyPage
             </Link>
           </NavItem>
           <NavItem>
-            <Link to="/about" className="nav-link">
-              About
+            <Link to="/forms" className="nav-link">
+              Login
             </Link>
           </NavItem>
           <UncontrolledDropdown inNavbar nav>
@@ -99,8 +99,6 @@ const Header = () => {
             <DropdownItem>My Account</DropdownItem>
             <DropdownItem>Edit Profile</DropdownItem>
             <DropdownItem divider />
-            <DropdownItem>My Balance</DropdownItem>
-            <DropdownItem>Inbox</DropdownItem>
             <DropdownItem>Logout</DropdownItem>
           </DropdownMenu>
         </Dropdown>

@@ -1,4 +1,4 @@
-import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
+import { Card, CardBody, CardTitle, Table } from "reactstrap";
 import user1 from "../../assets/images/users/user1.jpg";
 import user2 from "../../assets/images/users/user2.jpg";
 import user3 from "../../assets/images/users/user3.jpg";
@@ -8,7 +8,7 @@ import user5 from "../../assets/images/users/user5.jpg";
 const tableData = [
   {
     avatar: user1,
-    name: "Hanna Gover",
+    name: "노동자1",
     email: "hgover@gmail.com",
     project: "Flexy React",
     status: "pending",
@@ -17,7 +17,7 @@ const tableData = [
   },
   {
     avatar: user2,
-    name: "Hanna Gover",
+    name: "노동자2",
     email: "hgover@gmail.com",
     project: "Lading pro React",
     status: "done",
@@ -26,7 +26,7 @@ const tableData = [
   },
   {
     avatar: user3,
-    name: "Hanna Gover",
+    name: "노동자3",
     email: "hgover@gmail.com",
     project: "Elite React",
     status: "holt",
@@ -35,7 +35,7 @@ const tableData = [
   },
   {
     avatar: user4,
-    name: "Hanna Gover",
+    name: "노동자4",
     email: "hgover@gmail.com",
     project: "Flexy React",
     status: "pending",
@@ -44,7 +44,7 @@ const tableData = [
   },
   {
     avatar: user5,
-    name: "Hanna Gover",
+    name: "노동자5",
     email: "hgover@gmail.com",
     project: "Ample React",
     status: "done",
@@ -58,20 +58,16 @@ const ProjectTables = () => {
     <div>
       <Card>
         <CardBody>
-          <CardTitle tag="h5">Project Listing</CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            Overview of the projects
-          </CardSubtitle>
-
+          <CardTitle tag="h5">노동자 관리</CardTitle>
           <Table className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
               <tr>
-                <th>Team Lead</th>
-                <th>Project</th>
+                <th>노동자명</th>
+                <th>현장명</th>
 
-                <th>Status</th>
-                <th>Weeks</th>
-                <th>Budget</th>
+                <th>검사결과</th>
+                <th>검사결과</th>
+                <th>검사결과</th>
               </tr>
             </thead>
             <tbody>
