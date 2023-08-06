@@ -94,7 +94,7 @@ const Sidebar = () => {
                 to={navi.href}
                 className={
                   location.pathname === navi.href
-                    ? {reload}
+                    ?  "active nav-link py-3"
                     : "nav-link text-secondary py-3"
                 }
               >
