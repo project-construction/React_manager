@@ -65,7 +65,7 @@ const Sidebar = () => {
   const reload = () =>{
     location.reload();
   }
-  let location = useLocation();
+  const location = useLocation();
 
   return (
     <div>
@@ -84,7 +84,7 @@ const Sidebar = () => {
             <i className="bi bi-x"></i>
           </Button>
         </div>
-        <div className="bg-dark text-white p-2 opacity-75">Steave Rojer</div>
+        <div className="bg-dark text-white p-2 opacity-75">관리자</div>
       </div>
       <div className="p-3 mt-2">
         <Nav vertical className="sidebarNav">
@@ -94,7 +94,7 @@ const Sidebar = () => {
                 to={navi.href}
                 className={
                   location.pathname === navi.href
-                    ? "active nav-link py-3"
+                    ? {reload}
                     : "nav-link text-secondary py-3"
                 }
               >
