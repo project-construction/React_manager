@@ -20,7 +20,7 @@ const navigation = [
     icon: "bi bi-layout-split",
   },
   {
-    title: "안전점검회의",
+    title: "일정 관리",
     href: "/cards",
     icon: "bi bi-card-text",
   },
