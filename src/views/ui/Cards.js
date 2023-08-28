@@ -1,31 +1,74 @@
-import React, { useRef, useState } from "react";
-import DatePicker from "react-datepicker"
+import DatePicker from "react-datepicker";
+import dayjs from "dayjs";
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import ko from "date-fns/locale/ko";
 import "react-datepicker/dist/react-datepicker.css";
 
-const Cards = () => {
-    const [startDate, setStartDate]= useState(new Date());
+const Cards = ({ }) => {
+    const { control, handleSubmit } = useForm(); // useForm 훅으로 제어 객체 생성
 
-
-  return (
-   <div className={"schedule"}>
-     <h4>일정 추가</h4>
-       <DatePicker
-           selected={startDate}
-           onChange={(date) => setStartDate(date)}
-           dateFormat="yyyy.MM.dd (eee)" // 시간 포맷 변경
-       />
-       <div className={"time"}>
+    return (
         
 
-       </div>
-       <div className={"content"}>
-           <input placeholder= "일정"/>
-       </div>
+        <div>
+            <Controller
+                name="participation_started_at"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                    <DatePicker
+                        dateFormat="yyyy년 MM월 dd일 a hh시"
+                        dateFormatCalendar="yyyy년 MM월"
+                        locale={ko}  // 수정: 한국어 로케일을 지정합니다.
+                        showTimeSelect
+                        timeFormat="HH:mm"
+                        timeIntervals={60}
+                        timeCaption="시작시간"
+                        placeholderText="시작시간"
+                        selected={value}
+                        onChange={(data) => onChange(data)}
+                        dayClassName={(date) =>
+                            dayjs(date).day() === 6
+                                ? "saturday"
+                                : dayjs(date).day() === 0
+                                    ? "sunday"
+                                    : null
+                        }
+                    />
+                )}
+                />
+            <p></p>
+                <Controller
+                    name="participation_started_at"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                        <DatePicker
+                            dateFormat="yyyy년 MM월 dd일 a hh시"
+                            dateFormatCalendar="yyyy년 MM월"
+                            locale={ko}  // 수정: 한국어 로케일을 지정합니다.
+                            showTimeSelect
+                            timeFormat="HH:mm"
+                            timeIntervals={60}
+                            timeCaption="종료시간"
+                            placeholderText="종료시간"
+                            selected={value}
+                            onChange={(data) => onChange(data)}
+                            dayClassName={(date) =>
+                                dayjs(date).day() === 6
+                                    ? "saturday"
+                                    : dayjs(date).day() === 0
+                                        ? "sunday"
+                                        : null
+                            }
+                        />
+                    )}
+                />
 
-       <button>추가</button>
-   </div>
-
-  );
+            <div>
+                <button>추가</button>
+            </div>
+        </div>
+    );
 };
 
 export default Cards;
