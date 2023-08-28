@@ -1,4 +1,5 @@
 import ProjectTables from "../../components/dashboard/ProjectTable";
+import RecognizeTable from "../../components/dashboard/RecognizeTable";
 import { Row, Col, Table, Card, CardTitle, CardBody } from "reactstrap";
 
 const Tables = () => {
@@ -10,6 +11,12 @@ const Tables = () => {
       <Col lg="12">
         <ProjectTables />
       </Col>
+
+      <Col lg="12">
+        <RecognizeTable />
+      </Col>
+
+
       {/* --------------------------------------------------------------------------------*/}
       {/* table-2*/}
       {/* --------------------------------------------------------------------------------*/}
