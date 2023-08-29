@@ -73,12 +73,12 @@ const ProjectTables = () => {
                                 <td>{tdata.team}</td>
 
                                 <td>{}
-                                <Button color="primary" variant="contained" size="large"
+                                <Button outline color="success" variant="contained" size="large"
                                          onClick={ButtonAction}>
                                     승인
                                 </Button>
 
-                                <Button color="primary" variant="contained" size="large"
+                                <Button outline color="danger" variant="contained" size="large"
                                         onClick={ButtonAction}>
                                     거부
                                 </Button>
