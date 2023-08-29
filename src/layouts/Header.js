@@ -64,8 +64,8 @@ const Header = () => {
       <Collapse navbar isOpen={isOpen}>
         <Nav className="me-auto" navbar>
           <NavItem>
-            <Link to="/starter" className="nav-link">
-              MyPage
+            <Link to="/alerts" className="nav-link">
+              공지사항
             </Link>
           </NavItem>
           <NavItem>
