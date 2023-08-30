@@ -6,8 +6,8 @@
     margin: 20px;
 }
 
-.date-time-card {
-    width: 1000px;
+.date-card {
+    width: 10px;
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
