@@ -95,6 +95,7 @@ const Cards = () => {
 
             <div className="button-container">
                 <button >일정 추가</button>
+                <button >저장</button>
             </div>
         </div>
     );
