@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import base64 from 'base-64';
 
 import {
     Button,
@@ -16,8 +16,8 @@ const Writes = () => {
     const [content, setContent] = useState('');
 
     const handleSubmit = async event => {
-        // const jwtToken = localStorage.getItem('token');
-        const jwtToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyMUBleGFtcGxlLmNvbSIsInJvbGUiOiJtYW5hZ2VyIiwibXlOYW1lIjoi7ZmN6ri464-ZIiwiZXhwIjoxNjkzMzA4MjY0LCJpYXQiOjE2OTMzMDQ2NjR9.helL7ezc_QhE7YuBKWLbhG9_-cUMBNaGTSOPGl-2JcA";
+        const jwtToken = localStorage.getItem('token');
+
         const requestOptions = {
             method: 'POST',
             headers: {

@@ -7,12 +7,14 @@ import {
     CardBody,
     CardTitle, Form,
 } from "reactstrap";
+import base64 from "base-64";
 
 const Notices = () => {
     const navigate = useNavigate();
     const { index } = useParams();
 
     const [notice, setNotice] = useState([]);
+    const [email, setEmail] = useState([]);
 
     useEffect(() => {
         fetchNoticeByIndex();
@@ -25,15 +27,19 @@ const Notices = () => {
             const data = await response.json();
 
             setNotice(data);
+
+            const jwtToken = localStorage.getItem('token');
+
+            const payload = jwtToken.split('.')[1];
+            const dec = JSON.parse(base64.decode(payload));
+
+            setEmail(dec.sub);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
     };
-
+    console.log(email);
     const handleUpdate = async event => {
-        // const jwtToken = localStorage.getItem('token');
-        const jwtToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyMUBleGFtcGxlLmNvbSIsInJvbGUiOiJtYW5hZ2VyIiwibXlOYW1lIjoi7ZmN6ri464-ZIiwiZXhwIjoxNjkzMjEzMDI2LCJpYXQiOjE2OTMyMDk0MjZ9.pI9UiI6I1kuSNAvoNsNgBbVNdr-hXv_53bXHdDS5VRo";
-
         localStorage.setItem('notice_id', notice.id);
         localStorage.setItem('title', notice.title);
         localStorage.setItem('content', notice.content);
@@ -58,12 +64,12 @@ const Notices = () => {
 
                 <CardBody>
                     <div>{notice.content}</div>
-                    {notice.userID == "manager1@example.com" && (
+                    {notice.userID == email && (
                         <Form className="d-flex" onSubmit={handleUpdate}>
                             <Button type="submit" className="btn mr-2" color="primary">수정</Button>
                         </Form>
                     )}
-                    {notice.userID == "manager1@example.com" && (
+                    {notice.userID == email && (
                         <Form className="d-flex" onSubmit={handleDelete}>
                             <Button type="submit" className="btn" color="danger">삭제</Button>
                         </Form>
