@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import base64 from 'base-64';
 
 import {
     Button,
@@ -26,9 +25,10 @@ const Writes = () => {
             },
             body: JSON.stringify({title, content}),
             mode: 'cors'
+
         };
 
-        fetch('http://localhost:8080/notice/write', requestOptions)
+        fetch('https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/notice/write', requestOptions)
             .then(response => response)
             .then(data => {
                 console.log('submitted:', data);

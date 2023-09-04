@@ -19,22 +19,19 @@ const Alerts = () => {
 
   const fetchNotices = async () => {
     try {
-      // 서버에서 데이터 가져오기
-      const response = await fetch("http://localhost:8080/notice/all");
+      const response = await fetch("https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/notice/all");
       const data = await response.json();
-      setNotices(data); // 가져온 데이터를 상태에 설정
+      setNotices(data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("데이터를 가져오는 중 오류 발생:", error);
     }
   };
 
-  const handleSearch = async () => {
+   const handleSearch = async () => {
     if (searchOption === "title") {
       // 제목으로 검색하는 로직
       try {
-        const response = await fetch(
-            `http://localhost:8080/notice/title/${searchKeyword}`
-        );
+        const response = await fetch(`https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/notice/title/${searchKeyword}`);
         const data = await response.json();
         setNotices(data);
       } catch (error) {
@@ -44,7 +41,7 @@ const Alerts = () => {
       // 작성자로 검색하는 로직
       try {
         const response = await fetch(
-            `http://localhost:8080/notice/writer/${searchKeyword}`
+            `https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/notice/writer/${searchKeyword}`
         );
         const data = await response.json();
         setNotices(data);
