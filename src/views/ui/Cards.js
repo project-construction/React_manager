@@ -6,20 +6,23 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Cards.css";
 
 
-const Cards = ({}) => {
-    const [selectedDate, setSelectedDate] = useState(null); // 선택한 날짜를 로컬 상태로 저장
-    const [isEmpty, setIsEmpty] = useState(false);
+const Cards = ({onCreate}) => {
     // 일정 추가
-    const [schedules, setSchedules] = useState([{ schedule: "", startTime: null, endTime: null, isChose : false }]);
+    const [schedules, setSchedules] = useState([{ schedule: "", startTime: null, time : "" }]);
+    // 선택한 날짜를 로컬 상태로 저장
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [date, setDate] = useState(null);
+    // 일정 칸이 비어있는지 확인
+    const [isEmpty, setIsEmpty] = useState(false);
+
     // 현재 시간을 가져오는 함수
     const getCurrentTime = () => new Date();
     const scheduleInput=useRef();
     const startTimeInput=useRef();
-    const endTimeInput=useRef();
 
     // 일정 추가 버튼 누르면 일정 추가
     const handleAddSchedule = () => {
-        setSchedules([...schedules, { schedule: "", startTime: null, endTime: null, isChose: false }]);
+        setSchedules([...schedules, { schedule: "", startTime: null }]);
     };
 
     const handleDateChange = (date) => {
@@ -29,8 +32,21 @@ const Cards = ({}) => {
     // 저장하기
     const handleSubmit=async ()=>{
 
-        console.log(schedules[0].schedule);
-        console.log(selectedDate);
+        const year = selectedDate.getFullYear().toString();
+        const month = (selectedDate.getMonth()+1).toString().padStart(2, '0');
+        const day = selectedDate.getDay().toString().padStart(2, '0');
+        setDate(year+'-'+month+'-'+day);
+
+        console.log(schedules[0].startTime);
+
+        for(let i=0;i<schedules.length;i++){
+            const hour = schedules[i].startTime.getHours().toString().padStart(2, '0');
+            const minute = schedules[i].startTime.getMinutes().toString().padStart(2, '0');
+            schedules[i].time = hour + ':' + minute;
+        }
+
+        console.log(schedules);
+
 
         if(selectedDate===null){
             alert("날짜를 선택해주세요")
@@ -43,7 +59,7 @@ const Cards = ({}) => {
                 setIsEmpty(true);
                 return;
             }
-            else if(schedules[i].startTime==null || schedules[i].endTime==null){
+            else if(schedules[i].startTime==null){
                 alert("시간을 입력해주세요");
                 return;
             }
@@ -57,7 +73,7 @@ const Cards = ({}) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ schedules}),
+            body: JSON.stringify({ date, schedules}),
             mode: 'cors'
         };
 
@@ -70,12 +86,17 @@ const Cards = ({}) => {
                 console.error('Error submitting:', error);
             });
 
+        /*for(let i=0;i<schedules.length;i++){
+            console.log(selectedDate);
+        }*/
+
+
+
         alert("저장성공!")
         setSchedules([
             {
                 schedule: "",
                 startTime: null,
-                endTime: null
             }
         ]);
     }
@@ -118,7 +139,7 @@ const Cards = ({}) => {
                                 }}
                             />
                     </div>
-                        <div className="time-picker-container">
+                        <div>
                             <DatePicker className={"start_time"}
                                 ref={startTimeInput}
                                 selected={schedule.startTime}
@@ -138,26 +159,7 @@ const Cards = ({}) => {
                                 placeholderText="시작 시간"
                                 className="start_time"
                             />
-                            <DatePicker className={"end_time"}
-                                ref={endTimeInput}
-                                selected={schedule.endTime}
-                                onChange={(time) => {
-                                    const updatedSchedules = [...schedules];
-                                    updatedSchedules[index].endTime = time;
-                                    setSchedules(updatedSchedules);
-                                }}
-                                locale={ko}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                minTime={schedule.startTime}
-                                maxTime={dayjs().endOf("day").toDate()}
-                                timeCaption="Time"
-                                dateFormat="aa h:mm"
-                                placeholderText="종료 시간"
-                                className="end_time"
-                                disabled={!schedule.startTime} // 시작 시간이 없으면 비활성화
-                            />
+
                         </div>
                 </div>
             ))}
