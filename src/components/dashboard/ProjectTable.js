@@ -7,60 +7,38 @@ import user3 from "../../assets/images/users/user3.jpg";
 import user4 from "../../assets/images/users/user4.jpg";
 import user5 from "../../assets/images/users/user5.jpg";
 
-const tableData = [
-    {
-        avatar: user1,
-        name: "노동자1",
-        email: "hgover@gmail.com",
-        project: "Flexy React",
-        status: "pending",
-        weeks: "35",
-        budget: "95K",
-    },
-    {
-        avatar: user2,
-        name: "노동자2",
-        email: "hgover@gmail.com",
-        project: "Lading pro React",
-        status: "done",
-        weeks: "35",
-        budget: "95K",
-    },
-    {
-        avatar: user3,
-        name: "노동자3",
-        email: "hgover@gmail.com",
-        project: "Elite React",
-        status: "holt",
-        weeks: "35",
-        budget: "95K",
-    },
-    {
-        avatar: user4,
-        name: "노동자4",
-        email: "hgover@gmail.com",
-        project: "Flexy React",
-        status: "pending",
-        weeks: "35",
-        budget: "95K",
-    },
-    {
-        avatar: user5,
-        name: "노동자5",
-        email: "hgover@gmail.com",
-        project: "Ample React",
-        status: "done",
-        weeks: "35",
-        budget: "95K",
-    },
-];
+const UserInfo = ({selectedUser}) => {
+    if (!selectedUser) {
+        return null;
+    }
+
+    return (
+        <div className="user-info">
+            <img src={selectedUser.avatar} alt="User Avatar" />
+            <h2>{selectedUser.name}</h2>
+            <p>email : {selectedUser.email}</p>
+            <p>전화번호 :{selectedUser.phone}</p>
+            <p>생일 : {parseInt(selectedUser.birth.substring(0,2))+2000}년 {selectedUser.birth.substring(2,4).padStart(2, "0")}월 
+                {selectedUser.birth.substring(4,6).padStart(2, "0")}일</p>
+            <p>성별 : {selectedUser.gender}</p>
+            <p>주소 : {selectedUser.address}</p>
+            {/* 그 외에 사용자 정보를 표시하는 코드를 추가할 수 있습니다. */}
+        </div>
+    );
+};
 
 
 const ProjectTables = (props) => {
+
+    const [chart,setChart] = useState(false);
+
+    const [send, setSend] = useState({});
+    const [selectedUser, setSelectedUser] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [userData, setUserData] = useState([]);
     const [Data, setData] = useState([]);
+
     const handleSearch = () => {
         fetchUserData(searchText);
     };
@@ -69,8 +47,7 @@ const ProjectTables = (props) => {
         try {
             const params = new URLSearchParams();
             params.append('teamName', searchText);
-            console.log(searchText);
-            const response = await fetch(`http://localhost:8080/worker/team?teamName=${searchText}`, {
+            const response = await fetch(`https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/worker/team?teamName=${searchText}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -87,7 +64,6 @@ const ProjectTables = (props) => {
                     data[i].avatar = user1;
                 }
                 setUserData(data);
-                console.log(data);
 
             }
 
@@ -95,13 +71,41 @@ const ProjectTables = (props) => {
             console.error('Error fetching user data:', error);
         }
     };
+    
 
     const fetchData = async (searchText) => {
         try {
             const params = new URLSearchParams();
             params.append('email', searchText);
-            console.log(searchText);
-            const response = await fetch(`http://localhost:8080/worker/score?email=${searchText}`, {
+            const response = await fetch(`https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/worker/info?email=${searchText}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
+
+
+            if (!response.ok) {
+                throw new Error('Request failed');
+            } else {
+                const data = await response.json();
+                data.avatar = user2;
+                setSelectedUser(data);
+                console.log(data);
+            }
+
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+
+    };
+
+    const fetchUserInfoData = async (searchText) => {
+        try {
+            const params = new URLSearchParams();
+            params.append('email', searchText);
+            const response = await fetch(`https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/worker/score?email=${searchText}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -115,14 +119,19 @@ const ProjectTables = (props) => {
             } else {
                 const data = await response.json();
                 setData(data);
-                console.log(data);
                 props.setSend(data);
+                setSend(data);
             }
 
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
 
+    };
+    const handleUserInfo = (searchText) => {
+        fetchData(searchText);
+        fetchUserInfoData(searchText)
+        setChart(true);
     };
 
     useEffect(() => {
@@ -163,7 +172,7 @@ const ProjectTables = (props) => {
                                         />
                                         <div className="ms-3">
                                             <h6 className="mb-0">
-                                                <Button className="btn" outline color="info"  onClick={() => fetchData(tdata.email)}>{tdata.name}</Button>
+                                                <Button className="btn" outline color="info"  onClick={() => handleUserInfo(tdata.email)}>{tdata.name}</Button>
                                             </h6>
                                             <span className="text-muted">{tdata.email}</span>
                                         </div>
@@ -181,6 +190,13 @@ const ProjectTables = (props) => {
                             </tr>
                         ))}
                         </tbody>
+                        <div className="user-info-container">
+                            {/* UserInfo 컴포넌트에 selectedUser 상태 전달 */}
+                            <UserInfo selectedUser={selectedUser} />
+                        </div>
+                        <div className="user chart">
+                            {chart===true && <SalesChart send={send}/>}
+                        </div>
                     </Table>
                 </CardBody>
             </Card>
