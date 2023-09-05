@@ -3,7 +3,13 @@ import { Card, CardBody, CardSubtitle, CardTitle } from "reactstrap";
 import Chart from "react-apexcharts";
 
 const SalesChart = (props) => {
-  console.log(props);
+
+
+
+  if(!props){
+    return null;
+  }
+
   const [chartData, setChartData] = useState({
     options: {
       chart: {
