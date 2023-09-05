@@ -87,8 +87,6 @@ const SalesChart = (props) => {
       const anxiety = props.send.map(item => item.anxiety);
       const stress = props.send.map(item => item.stress);
 
-
-
       const updatedSeries = [
         {
           ...chartData.series[0],
