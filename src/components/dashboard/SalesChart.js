@@ -1,112 +1,114 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardBody, CardSubtitle, CardTitle } from "reactstrap";
 import Chart from "react-apexcharts";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
 
-const SalesChart = () => {
-
-  const options = {
-    chart: {
-      toolbar: {
-        show: false,
+const SalesChart = (props) => {
+  console.log(props);
+  const [chartData, setChartData] = useState({
+    options: {
+      chart: {
+        toolbar: {
+          show: false,
+        },
+        stacked: false,
       },
-      stacked: false,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 4,
-      colors: ["transparent"],
-    },
-    legend: {
-      show: true,
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: "50%",
-        borderRadius: 2,
+      dataLabels: {
+        enabled: false,
       },
-    },
-    colors: ["#AFEEEE", "#B0E0E6", "#87CEFA","#00BFFF","#4169E1"],
-    responsive: [
-      {
-        breakpoint: 1024,
-        options: {
-          plotOptions: {
-            bar: {
-              columnWidth: "60%",
-              borderRadius: 7,
+      stroke: {
+        show: true,
+        width: 4,
+        colors: ['transparent'],
+      },
+      legend: {
+        show: true,
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '30%',
+          borderRadius: 2,
+        },
+      },
+      colors: ['#0d6efd', '#009efb', '#6771dc'],
+      xaxis: {
+        categories: [
+          'doorlock',
+          'hammering',
+          'nback',
+          'simon',
+          'trafficLight',
+          'catchMole',
+          'numberPuzzle',
+          'depression',
+          'anxiety',
+          'stress',
+        ],
+      },
+      responsive: [
+        {
+          breakpoint: 1024,
+          options: {
+            plotOptions: {
+              bar: {
+                columnWidth: '60%',
+                borderRadius: 7,
+              },
             },
           },
         },
+      ],
+    },
+    series: [
+      {
+        name: '점수',
+        data: [],
       },
     ],
-  };
+  });
+
+  useEffect(() => {
+    // Update the series data when props.data is defined and not null
+    if (props.send && props.send.length > 0) {
+      const doorLock = props.send.map(item => item.doorlock);
+      const hammering = props.send.map(item => item.hammering);
+      const nback = props.send.map(item => item.nback);
+      const simon = props.send.map(item => item.simon);
+      const trafficLight = props.send.map(item => item.trafficLight);
+      const catchMole = props.send.map(item => item.catchMole);
+      const numberPuzzle = props.send.map(item => item.numberPuzzle);
+      const depression = props.send.map(item => item.depression);
+      const anxiety = props.send.map(item => item.anxiety);
+      const stress = props.send.map(item => item.stress);
 
 
-  const series = [
-    {
-      name: "현장1",
-      data: [20, 40, 50, 30, 40, 50],
-    },
-    {
-      name: "현장2",
-      data: [10, 20, 40, 60, 20, 40],
-    },
-    {
-      name: "현장3",
-      data: [30, 10, 20, 90, 70, 40],
-    },
-    {
-      name: "현장4",
-      data: [10, 20, 40, 60, 20, 40],
-    },
-    {
-      name: "현장5",
-      data: [20, 40, 50, 30, 40, 50],
-    },
-  ];
 
-  const categories = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug","Set","Oct","Nov","Dec"
-  ];
+      const updatedSeries = [
+        {
+          ...chartData.series[0],
+          data: [...doorLock, ...hammering, ...nback, ...simon, ...trafficLight, ...catchMole, ...numberPuzzle, ...depression, ...anxiety, ...stress], // Replace 'yourValueProperty' with the actual property name in your data
+        },
+      ];
 
-  const chunkArray = (arr, chunkSize) => {
-    const chunkedArray = [];
-    for (let i = 0; i < arr.length; i += chunkSize) {
-      chunkedArray.push(arr.slice(i, i + chunkSize));
+      setChartData(prevData => ({
+        ...prevData,
+        series: updatedSeries,
+      }));
     }
-    return chunkedArray;
-  };
-
-  const chunkedCategories = chunkArray(categories, 6);
-
-  const chartSlides = chunkedCategories.map((chunk, index) => (
-      <SwiperSlide key={index}>
-        <Chart options={{ ...options, xaxis: { categories: chunkedCategories[index] } }} series={series} type="bar" height="379" />
-      </SwiperSlide>
-  ));
-
+  }, [props.send]); // Include props in the dependency array
   return (
       <Card>
         <CardBody>
-          <CardTitle tag="h5">출석률</CardTitle>
+          <CardTitle tag="h5">이행률</CardTitle>
           <CardSubtitle className="text-muted" tag="h6">
-            현장별 출석 그래프
+            일별 이행률 그래프
           </CardSubtitle>
-          <Swiper
-              className="banner"
-              spaceBetween={50}
-              slidesPerView={1}
-              navigation
-              pagination={{ clickable: true }}
-          >
-            {chartSlides}
-          </Swiper>
+          <Chart
+              options={chartData.options} // Use chartData.options
+              series={chartData.series} // Use chartData.series
+              type="bar"
+              height="379"
+          />
         </CardBody>
       </Card>
   );
