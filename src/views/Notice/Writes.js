@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 import {
     Button,
     Card,
@@ -16,8 +15,8 @@ const Writes = () => {
     const [content, setContent] = useState('');
 
     const handleSubmit = async event => {
-        // const jwtToken = localStorage.getItem('token');
-        const jwtToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyMUBleGFtcGxlLmNvbSIsInJvbGUiOiJtYW5hZ2VyIiwibXlOYW1lIjoi7ZmN6ri464-ZIiwiZXhwIjoxNjkzMzA4MjY0LCJpYXQiOjE2OTMzMDQ2NjR9.helL7ezc_QhE7YuBKWLbhG9_-cUMBNaGTSOPGl-2JcA";
+        const jwtToken = localStorage.getItem('token');
+
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -26,9 +25,10 @@ const Writes = () => {
             },
             body: JSON.stringify({title, content}),
             mode: 'cors'
+
         };
 
-        fetch('http://localhost:8080/notice/write', requestOptions)
+        fetch('https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/notice/write', requestOptions)
             .then(response => response)
             .then(data => {
                 console.log('submitted:', data);

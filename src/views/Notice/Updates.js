@@ -36,7 +36,7 @@ const Updates = () => {
             mode: 'cors'
         };
 
-        fetch('http://localhost:8080/notice/update', requestOptions)
+        fetch('https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/notice/update', requestOptions)
             .then(response => response)
             .then(data => {
                 console.log('submitted:', data);
