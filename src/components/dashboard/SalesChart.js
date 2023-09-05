@@ -1,7 +1,11 @@
+import React from "react";
 import { Card, CardBody, CardSubtitle, CardTitle } from "reactstrap";
 import Chart from "react-apexcharts";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 const SalesChart = () => {
+
   const options = {
     chart: {
       toolbar: {
@@ -23,24 +27,11 @@ const SalesChart = () => {
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "30%",
+        columnWidth: "50%",
         borderRadius: 2,
       },
     },
-    colors: ["#0d6efd", "#009efb", "#6771dc"],
-    xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-      ],
-    },
+    colors: ["#AFEEEE", "#B0E0E6", "#87CEFA","#00BFFF","#4169E1"],
     responsive: [
       {
         breakpoint: 1024,
@@ -55,27 +46,69 @@ const SalesChart = () => {
       },
     ],
   };
+
+
   const series = [
     {
-      name: "2020",
-      data: [20, 40, 50, 30, 40, 50, 30, 30, 40],
+      name: "현장1",
+      data: [20, 40, 50, 30, 40, 50],
     },
     {
-      name: "2022",
-      data: [10, 20, 40, 60, 20, 40, 60, 60, 20],
+      name: "현장2",
+      data: [10, 20, 40, 60, 20, 40],
+    },
+    {
+      name: "현장3",
+      data: [30, 10, 20, 90, 70, 40],
+    },
+    {
+      name: "현장4",
+      data: [10, 20, 40, 60, 20, 40],
+    },
+    {
+      name: "현장5",
+      data: [20, 40, 50, 30, 40, 50],
     },
   ];
 
+  const categories = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug","Set","Oct","Nov","Dec"
+  ];
+
+  const chunkArray = (arr, chunkSize) => {
+    const chunkedArray = [];
+    for (let i = 0; i < arr.length; i += chunkSize) {
+      chunkedArray.push(arr.slice(i, i + chunkSize));
+    }
+    return chunkedArray;
+  };
+
+  const chunkedCategories = chunkArray(categories, 6);
+
+  const chartSlides = chunkedCategories.map((chunk, index) => (
+      <SwiperSlide key={index}>
+        <Chart options={{ ...options, xaxis: { categories: chunkedCategories[index] } }} series={series} type="bar" height="379" />
+      </SwiperSlide>
+  ));
+
   return (
-    <Card>
-      <CardBody>
-        <CardTitle tag="h5">이행률</CardTitle>
-        <CardSubtitle className="text-muted" tag="h6">
-          일별 이행률 그래프
-        </CardSubtitle>
-        <Chart options={options} series={series} type="bar" height="379" />
-      </CardBody>
-    </Card>
+      <Card>
+        <CardBody>
+          <CardTitle tag="h5">출석률</CardTitle>
+          <CardSubtitle className="text-muted" tag="h6">
+            현장별 출석 그래프
+          </CardSubtitle>
+          <Swiper
+              className="banner"
+              spaceBetween={50}
+              slidesPerView={1}
+              navigation
+              pagination={{ clickable: true }}
+          >
+            {chartSlides}
+          </Swiper>
+        </CardBody>
+      </Card>
   );
 };
 
