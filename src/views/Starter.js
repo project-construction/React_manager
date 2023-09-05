@@ -11,38 +11,38 @@ import bg4 from "../assets/images/bg/bg4.jpg";
 import {useState} from "react";
 
 const BlogData = [
-  {
-    image: bg1,
-    title: "This is simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg2,
-    title: "Lets be simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg3,
-    title: "Don't Lamp blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "Simple is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
+    {
+        image: bg1,
+        title: "This is simple blog",
+        subtitle: "2 comments, 1 Like",
+        description:
+            "This is a wider card with supporting text below as a natural lead-in to additional content.",
+        btnbg: "primary",
+    },
+    {
+        image: bg2,
+        title: "Lets be simple blog",
+        subtitle: "2 comments, 1 Like",
+        description:
+            "This is a wider card with supporting text below as a natural lead-in to additional content.",
+        btnbg: "primary",
+    },
+    {
+        image: bg3,
+        title: "Don't Lamp blog",
+        subtitle: "2 comments, 1 Like",
+        description:
+            "This is a wider card with supporting text below as a natural lead-in to additional content.",
+        btnbg: "primary",
+    },
+    {
+        image: bg4,
+        title: "Simple is beautiful",
+        subtitle: "2 comments, 1 Like",
+        description:
+            "This is a wider card with supporting text below as a natural lead-in to additional content.",
+        btnbg: "primary",
+    },
 ];
 
 const Starter = () => {
@@ -93,6 +93,7 @@ const Starter = () => {
       </Row>
     </div>
   );
+
 };
 
 export default Starter;

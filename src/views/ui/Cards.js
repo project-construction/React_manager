@@ -1,276 +1,180 @@
-import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  CardGroup,
-  Button,
-  Row,
-  Col,
-} from "reactstrap";
-import Blog from "../../components/dashboard/Blog";
-import bg1 from "../../assets/images/bg/bg1.jpg";
-import bg2 from "../../assets/images/bg/bg2.jpg";
-import bg3 from "../../assets/images/bg/bg3.jpg";
-import bg4 from "../../assets/images/bg/bg4.jpg";
+import React, {useRef, useState} from "react";
+import DatePicker from "react-datepicker";
+import dayjs from "dayjs";
+import ko from "date-fns/locale/ko";
+import "react-datepicker/dist/react-datepicker.css";
+import "./Cards.css";
 
-const BlogData = [
-  {
-    image: bg1,
-    title: "This is simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg2,
-    title: "Lets be simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg3,
-    title: "Don't Lamp blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "Simple is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-];
 
-const Cards = () => {
-  return (
-    <div>
-      {/* --------------------------------------------------------------------------------*/}
-      {/* Card-1*/}
-      {/* --------------------------------------------------------------------------------*/}
-      <h5 className="mb-3">Basic Card</h5>
-      <Row>
-        {BlogData.map((blg, index) => (
-          <Col sm="6" lg="6" xl="3" key={index}>
-            <Blog
-              image={blg.image}
-              title={blg.title}
-              subtitle={blg.subtitle}
-              text={blg.description}
-              color={blg.btnbg}
-            />
-          </Col>
-        ))}
-      </Row>
-      {/* --------------------------------------------------------------------------------*/}
-      {/* Card-2*/}
-      {/* --------------------------------------------------------------------------------*/}
-      <Row>
-        <h5 className="mb-3 mt-3">Alignment Text</h5>
-        <Col md="6" lg="4">
-          <Card body>
-            <CardTitle tag="h5">Special Title Treatment</CardTitle>
-            <CardText>
-              With supporting text below as a natural lead-in to additional
-              content.
-            </CardText>
+const Cards = ({onCreate}) => {
+    // 일정 추가
+    const [schedules, setSchedules] = useState([{ schedule: "", startTime: null, time : "" }]);
+    // 선택한 날짜를 로컬 상태로 저장
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [date, setDate] = useState(null);
+    // 일정 칸이 비어있는지 확인
+    const [isEmpty, setIsEmpty] = useState(false);
+
+    // 현재 시간을 가져오는 함수
+    const getCurrentTime = () => new Date();
+    const scheduleInput=useRef();
+    const startTimeInput=useRef();
+
+    // 일정 추가 버튼 누르면 일정 추가
+    const handleAddSchedule = () => {
+        setSchedules([...schedules, { schedule: "", startTime: null }]);
+    };
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date); // 선택한 날짜를 로컬 상태에 저장
+    };
+
+    // 저장하기
+    const handleSubmit=async ()=>{
+
+        const year = selectedDate.getFullYear().toString();
+        const month = (selectedDate.getMonth()+1).toString().padStart(2, '0');
+        const day = selectedDate.getDay().toString().padStart(2, '0');
+        setDate(year+'-'+month+'-'+day);
+
+        console.log(schedules[0].startTime);
+
+        for(let i=0;i<schedules.length;i++){
+            const hour = schedules[i].startTime.getHours().toString().padStart(2, '0');
+            const minute = schedules[i].startTime.getMinutes().toString().padStart(2, '0');
+            schedules[i].time = hour + ':' + minute;
+        }
+
+        console.log(schedules);
+
+
+        if(selectedDate===null){
+            alert("날짜를 선택해주세요")
+            return;
+        }
+        for (let i = 0; i < schedules.length; i++) {
+            if(schedules[i].schedule.length<1){
+                alert("일정을 입력해주세요")
+                scheduleInput.current.focus();
+                setIsEmpty(true);
+                return;
+            }
+            else if(schedules[i].startTime==null){
+                alert("시간을 입력해주세요");
+                return;
+            }
+        }
+        if(isEmpty){
+            return;
+        }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ date, schedules}),
+            mode: 'cors'
+        };
+
+        fetch('http://localhost:8080/notice/write', requestOptions)
+            .then(response => response)
+            .then(data => {
+                console.log('submitted:', data);
+            })
+            .catch(error => {
+                console.error('Error submitting:', error);
+            });
+
+        /*for(let i=0;i<schedules.length;i++){
+            console.log(selectedDate);
+        }*/
+
+
+
+        alert("저장성공!")
+        setSchedules([
+            {
+                schedule: "",
+                startTime: null,
+            }
+        ]);
+    }
+
+    return (
+        <div className="card-container">
+            <h2>일정 추가</h2>
             <div>
-              <Button color="light-warning">Go somewhere</Button>
+                <DatePicker className="date"
+                            dateFormat="yyyy년 MM월 dd일 eee요일"
+                            dateFormatCalendar="yyyy년 MM월"
+                            locale={ko}
+                            timeCaption="날짜 선택"
+                            timeCaption="날짜 선택"
+                            placeholderText="날짜 선택"
+                            selected={selectedDate}
+                            minDate={getCurrentTime()}
+                            onChange={handleDateChange}
+                            dayClassName={(date) =>
+                                dayjs(date).day() === 6
+                                    ? "saturday"
+                                    : dayjs(date).day() === 0
+                                        ? "sunday"
+                                        : null
+                            }
+                />
             </div>
-          </Card>
-        </Col>
-        <Col md="6" lg="4">
-          <Card body className="text-center">
-            <CardTitle tag="h5">Special Title Treatment</CardTitle>
-            <CardText>
-              With supporting text below as a natural lead-in to additional
-              content.
-            </CardText>
+
+            {schedules.map((schedule, index) => (
+                <div key={index}>
+                    <div>
+                        <input className={"schedule"}
+                               ref={scheduleInput}
+                                placeholder="일정"
+                                value={schedule.schedule}
+                                onChange={(e) => {
+                                    const updatedSchedules = [...schedules];
+                                    updatedSchedules[index].schedule = e.target.value;
+                                    setSchedules(updatedSchedules);
+                                }}
+                            />
+                    </div>
+                        <div>
+                            <DatePicker className={"start_time"}
+                                ref={startTimeInput}
+                                selected={schedule.startTime}
+                                onChange={(time) => {
+                                    const updatedSchedules = [...schedules];
+                                    updatedSchedules[index].startTime = time;
+                                    setSchedules(updatedSchedules);
+                                }}
+                                locale={ko}
+                                showTimeSelect
+                                showTimeSelectOnly
+                                timeIntervals={30}
+                                minTime={getCurrentTime()}
+                                maxTime={dayjs().endOf("day").toDate()}
+                                timeCaption="Time"
+                                dateFormat="aa h:mm ~"
+                                placeholderText="시작 시간"
+                                className="start_time"
+                            />
+
+                        </div>
+                </div>
+            ))}
+
+
             <div>
-              <Button color="light-danger">Go somewhere</Button>
+                <button onClick={handleAddSchedule}
+                        name="schedule-bot"
+                        >일정 추가</button>
+                <button onClick={handleSubmit}
+                        name="save-bot"
+                        >저장</button>
             </div>
-          </Card>
-        </Col>
-        <Col md="6" lg="4">
-          <Card body className="text-end">
-            <CardTitle tag="h5">Special Title Treatment</CardTitle>
-            <CardText>
-              With supporting text below as a natural lead-in to additional
-              content.
-            </CardText>
-            <div>
-              <Button color="light-success">Go somewhere</Button>
-            </div>
-          </Card>
-        </Col>
-      </Row>
-      {/* --------------------------------------------------------------------------------*/}
-      {/* Card-2*/}
-      {/* --------------------------------------------------------------------------------*/}
-      <Row>
-        <h5 className="mb-3 mt-3">Colored Card</h5>
-        <Col md="6" lg="3">
-          <Card body color="primary" inverse>
-            <CardTitle tag="h5">Special Title Treatment</CardTitle>
-            <CardText>
-              With supporting text below as a natural lead-in to additional
-              content.
-            </CardText>
-            <div>
-              <Button>Button</Button>
-            </div>
-          </Card>
-        </Col>
-        <Col md="6" lg="3">
-          <Card body color="info" inverse>
-            <CardTitle tag="h5">Special Title Treatment</CardTitle>
-            <CardText>
-              With supporting text below as a natural lead-in to additional
-              content.
-            </CardText>
-            <div>
-              <Button>Button</Button>
-            </div>
-          </Card>
-        </Col>
-        <Col md="6" lg="3">
-          <Card body color="success" inverse>
-            <CardTitle tag="h5">Special Title Treatment</CardTitle>
-            <CardText>
-              With supporting text below as a natural lead-in to additional
-              content.
-            </CardText>
-            <div>
-              <Button>Button</Button>
-            </div>
-          </Card>
-        </Col>
-        <Col md="6" lg="3">
-          <Card body color="danger" inverse>
-            <CardTitle tag="h5">Special Title Treatment</CardTitle>
-            <CardText>
-              With supporting text below as a natural lead-in to additional
-              content.
-            </CardText>
-            <div>
-              <Button>Button</Button>
-            </div>
-          </Card>
-        </Col>
-        <Col md="6" lg="3">
-          <Card body color="light-warning">
-            <CardTitle tag="h5">Special Title Treatment</CardTitle>
-            <CardText>
-              With supporting text below as a natural lead-in to additional
-              content.
-            </CardText>
-            <div>
-              <Button>Button</Button>
-            </div>
-          </Card>
-        </Col>
-        <Col md="6" lg="3">
-          <Card body color="light-info">
-            <CardTitle tag="h5">Special Title Treatment</CardTitle>
-            <CardText>
-              With supporting text below as a natural lead-in to additional
-              content.
-            </CardText>
-            <div>
-              <Button>Button</Button>
-            </div>
-          </Card>
-        </Col>
-        <Col md="6" lg="3">
-          <Card body color="light-success">
-            <CardTitle tag="h5">Special Title Treatment</CardTitle>
-            <CardText>
-              With supporting text below as a natural lead-in to additional
-              content.
-            </CardText>
-            <div>
-              <Button>Button</Button>
-            </div>
-          </Card>
-        </Col>
-        <Col md="6" lg="3">
-          <Card body color="light-danger">
-            <CardTitle tag="h5">Special Title Treatment</CardTitle>
-            <CardText>
-              With supporting text below as a natural lead-in to additional
-              content.
-            </CardText>
-            <div>
-              <Button>Button</Button>
-            </div>
-          </Card>
-        </Col>
-      </Row>
-      {/* --------------------------------------------------------------------------------*/}
-      {/* Card-Group*/}
-      {/* --------------------------------------------------------------------------------*/}
-      <Row>
-        <h5 className="mb-3 mt-3">Card Group</h5>
-        <Col>
-          <CardGroup>
-            <Card>
-              <CardImg alt="Card image cap" src={bg1} top width="100%" />
-              <CardBody>
-                <CardTitle tag="h5">Card title</CardTitle>
-                <CardSubtitle className="mb-2 text-muted" tag="h6">
-                  Card subtitle
-                </CardSubtitle>
-                <CardText>
-                  This is a wider card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
-                </CardText>
-                <Button>Button</Button>
-              </CardBody>
-            </Card>
-            <Card>
-              <CardImg alt="Card image cap" src={bg2} top width="100%" />
-              <CardBody>
-                <CardTitle tag="h5">Card title</CardTitle>
-                <CardSubtitle className="mb-2 text-muted" tag="h6">
-                  Card subtitle
-                </CardSubtitle>
-                <CardText>
-                  This card has supporting text below as a natural lead-in to
-                  additional content.
-                </CardText>
-                <Button>Button</Button>
-              </CardBody>
-            </Card>
-            <Card>
-              <CardImg alt="Card image cap" src={bg3} top width="100%" />
-              <CardBody>
-                <CardTitle tag="h5">Card title</CardTitle>
-                <CardSubtitle className="mb-2 text-muted" tag="h6">
-                  Card subtitle
-                </CardSubtitle>
-                <CardText>
-                  This is a wider card with supporting text below as a natural
-                  lead-in to additional content. This card has even longer
-                  content than the first to show that equal height action.
-                </CardText>
-                <Button>Button</Button>
-              </CardBody>
-            </Card>
-          </CardGroup>
-        </Col>
-      </Row>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default Cards;

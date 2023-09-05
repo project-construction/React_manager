@@ -8,6 +8,7 @@ import user4 from "../../assets/images/users/user4.jpg";
 import user5 from "../../assets/images/users/user5.jpg";
 
 const UserInfo = ({selectedUser}) => {
+
     if (!selectedUser) {
         return null;
     }
@@ -202,6 +203,7 @@ const ProjectTables = (props) => {
             </Card>
         </div>
     );
+
 };
 
 export default ProjectTables;
