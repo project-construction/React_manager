@@ -40,9 +40,7 @@ const Alerts = () => {
     } else if (searchOption === "author") {
       // 작성자로 검색하는 로직
       try {
-        const response = await fetch(
-            `https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/notice/writer/${searchKeyword}`
-        );
+        const response = await fetch(`https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/notice/writer/${searchKeyword}`);
         const data = await response.json();
         setNotices(data);
       } catch (error) {

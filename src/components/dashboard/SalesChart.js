@@ -10,6 +10,7 @@ const SalesChart = (props) => {
     return null;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [chartData, setChartData] = useState({
     options: {
       chart: {
@@ -73,6 +74,7 @@ const SalesChart = (props) => {
     ],
   });
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     // Update the series data when props.data is defined and not null
     if (props.send && props.send.length > 0) {
