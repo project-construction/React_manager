@@ -31,7 +31,7 @@ const navigation = [
   },
   {
     title: "로그인",
-    href: "/forms",
+    href: "/login",
     icon: "bi bi-textarea-resize",
   },
 ];
