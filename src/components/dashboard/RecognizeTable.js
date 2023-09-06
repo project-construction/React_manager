@@ -27,13 +27,55 @@ const ProjectTables = () => {
     }, []);
 
     const handleApproval = (email) => {
-        // 승인 버튼 동작 처리
-        // 이메일에 해당하는 노동자를 승인하는 API 호출
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        };
+
+        // 노동자 승인 API 호출
+        fetch(`https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/worker/approval?email=${email}`, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                // 승인 상태를 업데이트합니다.
+                updateWorkerApprovalStatus(email, '승인됨');
+            })
+            .catch(error => {
+                console.error('승인 요청 중 오류 발생:', error);
+            });
+    };
+    const handleRejection = (email) => {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        };
+
+        // 노동자 거부 API 호출
+        fetch('https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/worker/rejection', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                // 거부 상태를 업데이트합니다.
+                updateWorkerApprovalStatus(email, '거부됨');
+            })
+            .catch(error => {
+                console.error('거부 요청 중 오류 발생:', error);
+            });
     };
 
-    const handleRejection = (email) => {
-        // 거부 버튼 동작 처리
-        // 이메일에 해당하는 노동자를 거부하는 API 호출
+    const updateWorkerApprovalStatus = (email, status) => {
+        // 테이블 데이터에서 해당 노동자의 승인 상태를 업데이트합니다.
+        const updatedTableData = tableData.map(worker => {
+            if (worker.email === email) {
+                return { ...worker, approvalStatus: status };
+            }
+            return worker;
+        });
+        setTableData(updatedTableData);
     };
 
     return (

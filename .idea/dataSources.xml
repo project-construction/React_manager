@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="testUnity@svc.sel3.cloudtype.app" uuid="90943f66-3291-434d-9f6f-09a278211728">
+    <data-source source="LOCAL" name="testUnity@svc.sel3.cloudtype.app" uuid="4b7a4991-ff2e-4689-875d-6f7bc06ef7f2">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
