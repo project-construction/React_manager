@@ -48,19 +48,6 @@
     font-size: 16px;
 }
 
-/* 일정 추가, 저장 버튼 스타일 */
-button[name="schedule-bot"],
-button[name="save-bot"] {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
-    margin-right: 10px;
-}
-
 /* 토요일 스타일 */
 .saturday {
     background-color: #d3edfa;
