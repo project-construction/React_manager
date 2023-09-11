@@ -24,7 +24,7 @@ const Cards = ({onCreate}) => {
 
     // 삭제하기
     const handleDeleteSchedule = (index) => {
-        fetch(`http://localhost:8080/schedule/delete/${schedules[index].id}`, {
+        fetch(`https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/schedule/delete/${schedules[index].id}`, {
             method: 'DELETE',
             mode: 'cors'
         });
@@ -38,7 +38,7 @@ const Cards = ({onCreate}) => {
             try {
                 const date = `${year}-${month}-${day}`;
 
-                const response = await fetch(`http://localhost:8080/schedule/find/${date}`, {
+                const response = await fetch(`https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/schedule/find/${date}`, {
                     method: 'GET',
                     mode: 'cors'
 
@@ -123,7 +123,7 @@ const Cards = ({onCreate}) => {
             mode: 'cors'
         };
 
-        fetch('http://localhost:8080/schedule/add', requestOptions)
+        fetch('https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/schedule/add', requestOptions)
             .then(response => response)
             .then(data => {
                 console.log('submitted:', data);
