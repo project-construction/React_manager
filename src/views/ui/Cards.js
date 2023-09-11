@@ -27,15 +27,16 @@ const Cards = ({onCreate}) => {
 
     const handleDateChange = (date) => {
         setSelectedDate(date); // 선택한 날짜를 로컬 상태에 저장
+        const year = selectedDate.getFullYear().toString();
+        const month = (selectedDate.getMonth()+1).toString().padStart(2, '0');
+        const day = selectedDate.getDay().toString().padStart(2, '0');
+        setDate(year+'-'+month+'-'+day);
     };
 
     // 저장하기
     const handleSubmit=async ()=>{
 
-        const year = selectedDate.getFullYear().toString();
-        const month = (selectedDate.getMonth()+1).toString().padStart(2, '0');
-        const day = selectedDate.getDay().toString().padStart(2, '0');
-        setDate(year+'-'+month+'-'+day);
+
 
         console.log(schedules[0].startTime);
 
@@ -85,10 +86,6 @@ const Cards = ({onCreate}) => {
             .catch(error => {
                 console.error('Error submitting:', error);
             });
-
-        /*for(let i=0;i<schedules.length;i++){
-            console.log(selectedDate);
-        }*/
 
 
 

@@ -13,14 +13,18 @@ import Updates from "./views/Notice/Updates";
 import Writes from "./views/Notice/Writes";
 import Forms from "./views/ui/Forms";
 import Breadcrumbs from "./views/ui/Breadcrumbs";
+
+
+import Login from "./views/auth/Login";
+import Signup from "./views/auth/Signup";
+
 const App = () => {
-
- /* const onCreate=(date, schedule, start_time, end_time){
-
-  }*/
 
   return (
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
         <Route path="/" element={<FullLayout />}>
           <Route index element={<Navigate to="/starter" />} />
           <Route path="/starter" element={<Starter />} />
@@ -35,6 +39,8 @@ const App = () => {
           <Route path="/write" element={<Writes />} />
           <Route path="/forms" element={<Forms />} />
           <Route path="/breadcrumbs" element={<Breadcrumbs />} />
+
+
         </Route>
       </Routes>
   );

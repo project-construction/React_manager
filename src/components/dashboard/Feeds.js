@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
   Card,
   CardBody,
@@ -8,79 +8,50 @@ import {
   ListGroupItem,
   Button,
 } from "reactstrap";
-
-const FeedData = [
-  {
-    title: "공지사항1",
-    icon: "bi bi-bell",
-    color: "primary",
-    date: "1 minute ago",
-  },
-  {
-    title: "공지사항2",
-    icon: "bi bi-person",
-    color: "info",
-    date: "6 minute ago",
-  },
-  {
-    title: "공지사항3",
-    icon: "bi bi-hdd",
-    color: "danger",
-    date: "19 minute ago",
-  },
-  {
-    title: "공지사항4",
-    icon: "bi bi-bag-check",
-    color: "success",
-    date: "34 minute ago",
-  },
-  {
-    title: "공지사항5",
-    icon: "bi bi-bell",
-    color: "dark",
-    date: "47 minute ago",
-  },
-  {
-    title: "공지사항6",
-    icon: "bi bi-hdd",
-    color: "warning",
-    date: "1 hours ago",
-  },
-];
+import {Link} from "react-router-dom";
 
 const Feeds = () => {
+  const [notices, setNotices] = useState([]);
+
+  useEffect(() => {
+    fetchNotices();
+  }, []);
+
+  const fetchNotices = async () => {
+    try {
+      const response = await fetch("https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/notice/all");
+      const data = await response.json();
+      setNotices(data);
+    } catch (error) {
+      console.error("데이터를 가져오는 중 오류 발생:", error);
+    }
+  };
+
   return (
-      <Card>
-        <CardBody>
-          <CardTitle tag="h5">공지사항</CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            공지사항입니다
-          </CardSubtitle>
-          <ListGroup flush className="mt-4">
-            {FeedData.map((feed, index) => (
+    <Card>
+      <CardBody>
+        <CardTitle tag="h5">공지사항</CardTitle>
+        <ListGroup flush className="mt-4">
+          {notices.map((feed, index) => (
+            (index < 7 &&
+              <Link to={`/Notice/${feed.id}`} className="Buttons-link" style={{ textDecoration: 'none' }}>
                 <ListGroupItem
-                    key={index}
-                    action
-                    href="/"
-                    tag="a"
-                    className="d-flex align-items-center p-3 border-0"
+                key={index}
+                action
+                href="/"
+                tag="a"
+                className="d-flex align-items-center p-3 border-0"
                 >
-                  <Button
-                      className="rounded-circle me-3"
-                      size="sm"
-                      color={feed.color}
-                  >
-                    <i className={feed.icon}></i>
-                  </Button>
                   {feed.title}
                   <small className="ms-auto text-muted text-small">
-                    {feed.date}
+                    {feed.write_date}
                   </small>
                 </ListGroupItem>
-            ))}
-          </ListGroup>
-        </CardBody>
-      </Card>
+              </Link>)
+          ))}
+        </ListGroup>
+      </CardBody>
+    </Card>
   );
 };
 
