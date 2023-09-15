@@ -19,7 +19,6 @@ import Login from "./views/auth/Login";
 import Signup from "./views/auth/Signup";
 
 import PDFList from "./views/PDFSign/PDFList";
-import PDFUpload from "./views/PDFSign/PDFUpload";
 
 const App = () => {
 
@@ -44,7 +43,6 @@ const App = () => {
           <Route path="/breadcrumbs" element={<Breadcrumbs />} />
 
           <Route path="/pdflist" element={<PDFList />} />
-          <Route path="/pdfupload" element={<PDFUpload />} />
         </Route>
       </Routes>
   );
