@@ -18,6 +18,8 @@ import Breadcrumbs from "./views/ui/Breadcrumbs";
 import Login from "./views/auth/Login";
 import Signup from "./views/auth/Signup";
 
+import PDFList from "./views/PDFSign/PDFList";
+
 const App = () => {
 
   return (
@@ -40,7 +42,7 @@ const App = () => {
           <Route path="/forms" element={<Forms />} />
           <Route path="/breadcrumbs" element={<Breadcrumbs />} />
 
-
+          <Route path="/pdflist" element={<PDFList />} />
         </Route>
       </Routes>
   );
