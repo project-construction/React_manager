@@ -81,7 +81,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({role:"USER",userid:id,team:team,name:name,birth:birthday,gender:selectedGender,email:email,phone:phoneNumber, password:password,address:address}),
+                    body: JSON.stringify({role:"MANAGER",userid:id,team:team,name:name,birth:birthday,gender:selectedGender,email:email,phone:phoneNumber, password:password,address:address}),
                     mode: 'cors'
                 });
 
