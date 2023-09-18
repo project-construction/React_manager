@@ -21,6 +21,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
 
     const handleLogin = async () => {
         try {
+            const jwtToken = localStorage.getItem('accessToken'); // 토큰을 로컬 스토리지에서 가져옴
             const response = await fetch('https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/auth/login', {
                 method: 'POST',
                 headers: {
@@ -38,15 +39,31 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
                     localStorage.setItem('token', token);
                     localStorage.setItem('email', email);
                     localStorage.setItem('password', password);
-                    navigate('/starter');
                     setIsLoggedIn(true);
+                    navigate('/starter');
                 }).catch(error => {
                     console.error('JSON 파싱 오류:', error);
                 });
+
+                // 추가한 API 호출
+                const attendResponse = await fetch('https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/attend/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}` // 토큰을 헤더에 추가
+                    },
+                    body: JSON.stringify({ email, password }),
+                    mode: 'cors'
+                });
+
+                if (attendResponse.ok) {
+                    // Attend API 호출이 성공하면 원하는 작업을 수행하세요.
+                } else {
+                    console.error('Attend API 호출 실패');
+                }
             } else {
                 console.error('로그인 실패');
             }
-
         } catch (error) {
             console.error('오류 발생:', error);
         }
