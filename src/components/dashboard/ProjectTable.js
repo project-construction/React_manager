@@ -30,9 +30,7 @@ const UserInfo = ({selectedUser}) => {
 
 
 const ProjectTables = (props) => {
-
-    const [chart,setChart] = useState(false);
-
+    const [open, setOpen] = useState([]);
     const [send, setSend] = useState({});
     const [selectedUser, setSelectedUser] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
@@ -43,6 +41,17 @@ const ProjectTables = (props) => {
     const handleSearch = () => {
         fetchUserData(searchText);
     };
+    const addElement = () => {
+        setOpen((prevArray) => [...prevArray, false]);
+    };
+    const toggleElement = (index) => {
+        setOpen((prevArray) => {
+            const newArray = [...prevArray];
+            newArray[index] = !newArray[index]; // 특정 인덱스의 값을 토글
+            return newArray;
+        });
+    };
+
 
     const fetchUserData = async () => {
         try {
@@ -60,9 +69,11 @@ const ProjectTables = (props) => {
             if (!response.ok) {
                 throw new Error('Request failed');
             } else {
+                setOpen([]);
                 const data = await response.json();
                 for (let i = 0; i < data.length; i++) {
                     data[i].avatar = user1;
+                    addElement();
                 }
                 setUserData(data);
 
@@ -129,10 +140,14 @@ const ProjectTables = (props) => {
         }
 
     };
-    const handleUserInfo = (searchText) => {
+    const handleUserInfo = (searchText, index) => {
+        if(open[index]){
+            toggleElement(index);
+            return null;
+        }
         fetchData(searchText);
         fetchUserInfoData(searchText)
-        setChart(true);
+        toggleElement(index);
     };
 
     useEffect(() => {
@@ -173,10 +188,17 @@ const ProjectTables = (props) => {
                                         />
                                         <div className="ms-3">
                                             <h6 className="mb-0">
-                                                <Button className="btn" outline color="info"  onClick={() => handleUserInfo(tdata.email)}>{tdata.name}</Button>
+                                                <Button className="btn" outline color="info"  onClick={() => handleUserInfo(tdata.email, index)}>{tdata.name}</Button>
                                             </h6>
                                             <span className="text-muted">{tdata.email}</span>
                                         </div>
+                                    </div>
+                                    <div className="user-info-container">
+                                        {/* UserInfo 컴포넌트에 selectedUser 상태 전달 */}
+                                        {open[index] && <UserInfo selectedUser={selectedUser} />}
+                                    </div>
+                                    <div className="user chart">
+                                        {open[index] && <SalesChart send={send}/>}
                                     </div>
                                 </td>
                                 <td>
@@ -191,13 +213,6 @@ const ProjectTables = (props) => {
                             </tr>
                         ))}
                         </tbody>
-                        <div className="user-info-container">
-                            {/* UserInfo 컴포넌트에 selectedUser 상태 전달 */}
-                            <UserInfo selectedUser={selectedUser} />
-                        </div>
-                        <div className="user chart">
-                            {chart===true && <SalesChart send={send}/>}
-                        </div>
                     </Table>
                 </CardBody>
             </Card>
