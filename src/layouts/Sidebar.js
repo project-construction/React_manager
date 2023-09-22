@@ -25,8 +25,8 @@ const navigation = [
     icon: "bi bi-card-text",
   },
   {
-    title: "작업 허가",
-    href: "/badges",
+    title: "출석코드 ",
+    href: "/setcode",
     icon: "bi bi-patch-check",
   },
   {
