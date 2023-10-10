@@ -26,7 +26,7 @@ const navigation = [
   },
   {
     title: "작업 허가",
-    href: "/badges",
+    href: "/pdflist",
     icon: "bi bi-patch-check",
   },
   {

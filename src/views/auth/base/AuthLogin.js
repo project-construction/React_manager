@@ -65,7 +65,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             <Stack>
                 <Box>
                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor='email' mb="5px">
-                        Email
+                        이메일
                     </Typography>
                     <CustomTextField
                         id="email"
@@ -77,7 +77,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
                 </Box>
                 <Box mt="25px">
                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor='password' mb="5px">
-                        Password
+                        비밀번호
                     </Typography>
                     <CustomTextField
                         id="password"
@@ -92,20 +92,9 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
                     <FormGroup>
                         <FormControlLabel
                             control={<Checkbox checked={rememberDevice} onChange={() => setRememberDevice(!rememberDevice)} />}
-                            label="Remember this Device"
+                            label="기기에 정보 저장"
                         />
                     </FormGroup>
-                    <Typography
-                        component={Link}
-                        to="/"
-                        fontWeight="500"
-                        sx={{
-                            textDecoration: 'none',
-                            color: 'primary.main',
-                        }}
-                    >
-                        Forgot Password ?
-                    </Typography>
                 </Stack>
             </Stack>
             <Box>
@@ -116,7 +105,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
                     fullWidth
                     onClick={handleLogin}
                 >
-                    Sign In
+                    로그인
                 </Button>
             </Box>
             {subtitle}
