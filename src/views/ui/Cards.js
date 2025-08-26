@@ -149,8 +149,8 @@ const Cards = ({onCreate}) => {
             <h2>Add Schedule</h2>
             <div>
                 <DatePicker className="date"
-                            dateFormat="yyyy년 MM월 dd일 eee요일"
-                            dateFormatCalendar="yyyy년 MM월"
+                            dateFormat="yyyy. MM. dd."
+                            dateFormatCalendar="yyyy. MM."
                             locale={ko}
                             timeCaption="날짜 선택"
                             placeholderText="Date"

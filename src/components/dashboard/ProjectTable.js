@@ -17,13 +17,11 @@ const UserInfo = ({selectedUser}) => {
         <div className="user-info">
             <img src={selectedUser.avatar} alt="User Avatar" />
             <h2>{selectedUser.name}</h2>
-            <p>email : {selectedUser.email}</p>
-            <p>전화번호 :{selectedUser.phone}</p>
-            <p>생일 : {parseInt(selectedUser.birth.substring(0,2))+2000}년 {selectedUser.birth.substring(2,4).padStart(2, "0")}월
-                {selectedUser.birth.substring(4,6).padStart(2, "0")}일</p>
-            <p>성별 : {selectedUser.gender}</p>
-            <p>주소 : {selectedUser.address}</p>
-            {/* 그 외에 사용자 정보를 표시하는 코드를 추가할 수 있습니다. */}
+            <p>Email : {selectedUser.email}</p>
+            <p>Phone :{selectedUser.phone}</p>
+            <p>Birth : {parseInt(selectedUser.birth.substring(0,2))+2000}. {selectedUser.birth.substring(2,4).padStart(2, "0")}. {selectedUser.birth.substring(4,6).padStart(2, "0")}.</p>
+            <p>Gender : {selectedUser.gender}</p>
+            <p>Address : {selectedUser.address}</p>
         </div>
     );
 };
@@ -57,7 +55,7 @@ const ProjectTables = (props) => {
         try {
             const params = new URLSearchParams();
             params.append('teamName', searchText);
-            const response = await fetch(`https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/worker/team?teamName=${searchText}`, {
+            const response = await fetch(`http://localhost:8080/worker/team?teamName=${searchText}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -89,7 +87,7 @@ const ProjectTables = (props) => {
         try {
             const params = new URLSearchParams();
             params.append('email', searchText);
-            const response = await fetch(`https://port-0-spring-eu1k2llldpju8v.sel3.cloudtype.app/worker/info?email=${searchText}`, {
+            const response = await fetch(`http://localhost:8080/worker/info?email=${searchText}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -172,6 +170,7 @@ const ProjectTables = (props) => {
                         <tr>
                             <th>Name</th>
                             <th>Test Result</th>
+                            <th>DASS-21 Result</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -200,6 +199,15 @@ const ProjectTables = (props) => {
                                     <div className="user chart">
                                         {open[index] && <SalesChart send={send}/>}
                                     </div>
+                                </td>
+                                <td>
+                                    {tdata.status === "pending" ? (
+                                        <span className="p-2 bg-danger rounded-circle d-inline-block ms-3"></span>
+                                    ) : tdata.status === "holt" ? (
+                                        <span className="p-2 bg-warning rounded-circle d-inline-block ms-3"></span>
+                                    ) : (
+                                        <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
+                                    )}
                                 </td>
                                 <td>
                                     {tdata.status === "pending" ? (

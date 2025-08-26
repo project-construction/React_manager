@@ -66,7 +66,7 @@ const SalesChart = (props) => {
     series: [
       {
         name: '점수',
-        data: [],
+        data: [4,5,10,8,4,5,5,7,11,6],
       },
     ],
   });
@@ -104,7 +104,6 @@ const SalesChart = (props) => {
         <CardBody>
           <CardTitle tag="h5">Reports</CardTitle>
           <CardSubtitle className="text-muted" tag="h6">
-
           </CardSubtitle>
           <Chart
               options={chartData.options} // Use chartData.options

@@ -112,7 +112,7 @@ const ProjectTables = () => {
                                         size="large"
                                         onClick={() => handleApproval(tdata.email)}
                                     >
-                                        승인
+                                        Accept
                                     </Button>
                                     <Button
                                         padding="10px"
@@ -121,7 +121,7 @@ const ProjectTables = () => {
                                         size="large"
                                         onClick={() => handleRejection(tdata.email)}
                                     >
-                                        거부
+                                        Reject
                                     </Button>
                                 </td>
                             </tr>
